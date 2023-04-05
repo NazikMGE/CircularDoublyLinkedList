@@ -26,11 +26,10 @@ void push_front(struct Node** head_ref, int newElement) {
     newNode->next = *head_ref;
     (*head_ref)->prev = newNode;
     *head_ref = newNode;
-    }
+}
 
 }
 
-//display the content of the list
 void PrintList(struct Node* head_ref) {
     struct Node* temp = head_ref;
     if(head_ref != NULL) {
@@ -46,6 +45,7 @@ void PrintList(struct Node* head_ref) {
     printf("The list is empty.\n");
     }   
 }
+
 
 void delete_n_element(struct Node **head_ref, int n) {
 
@@ -64,8 +64,11 @@ void delete_n_element(struct Node **head_ref, int n) {
     }
 
     if (n > count) {
-        printf("You cant delete this number");
-    } else {
+        printf("You cant delete this number\n");
+    } else if (n >= count) {
+        free(temp);
+    }
+    else {
         for (int i = 0; i < n; i++) {
             struct Node *del_nod = (*head_ref)->prev;
             del_nod->prev->next = *head_ref;
@@ -75,16 +78,28 @@ void delete_n_element(struct Node **head_ref, int n) {
     }
 }
 
-// test the code 
+
+
 int main() {
     struct Node* MyList = NULL;
     int val;
-    for (int i = 0; i < 7; i++) {
+    int x;
+    printf("How elements you want add: ");
+    scanf("%d", &x);
+    if (x == 0) {
+        printf("You cant write 0");
+        getchar();
+        exit(0);
+    } else {
+        for (int i = 0; i < x; i++) {
         scanf("%d", &val);
         push_front(&MyList, val);
     }
-    // PrintList(MyList);
-    delete_n_element(&MyList, 2);
     PrintList(MyList);
-    return 0; 
+    printf("How many elements from end you want delete: ");
+    scanf("%d", &x);
+    delete_n_element(&MyList, x);
+    PrintList(MyList);
+    }
+    return 0;
 }
